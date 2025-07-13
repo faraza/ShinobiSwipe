@@ -19,7 +19,7 @@ const sampleCards: CardData[] = [
   {
     id: 2,
     type: "text",
-    content: "Zabuza says he always supported naruto. \n\nThe interviewer reminds him that he tried to cut him in half with a giant sword.",
+    content: "Zabuza says he always supported Naruto. \n\nThe interviewer reminds him that he tried to cut him in half with a giant sword.",
   },
   {
     id: 3,
@@ -37,13 +37,9 @@ const sampleCards: CardData[] = [
   },
   {
     id: 5,
-    type: "dialogue",
-    content: {
-      speaker1: "blah",
-      speaker2: "Hi",
-      speaker1_2: "Yo",
-    },
-  },
+    type: "text",
+    content: "Meth guy says he used to call Naruto the GOAT-kage.",
+  },  
 ]
 
 export default function Component() {
