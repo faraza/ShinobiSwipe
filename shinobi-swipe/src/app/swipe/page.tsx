@@ -9,38 +9,45 @@ interface JokeCard {
   id: number;
   joke: string;
   category: string;
+  author?: string;
 }
 
 const sampleJokes: JokeCard[] = [
   {
     id: 1,
     joke: "Why don't scientists trust atoms? Because they make up everything!",
-    category: "Science"
+    category: "Science",
+    author: "Physics Professor"
   },
   {
     id: 2,
     joke: "What do you call a fake noodle? An impasta!",
-    category: "Food"
+    category: "Food",
+    author: "Chef Mario"
   },
   {
     id: 3,
     joke: "Why did the scarecrow win an award? Because he was outstanding in his field!",
-    category: "Agriculture"
+    category: "Agriculture",
+    author: "Farmer Joe"
   },
   {
     id: 4,
     joke: "Why don't eggs tell jokes? They'd crack each other up!",
-    category: "Food"
+    category: "Food",
+    author: "Breakfast Club"
   },
   {
     id: 5,
     joke: "What do you call a bear with no teeth? A gummy bear!",
-    category: "Animals"
+    category: "Animals",
+    author: "Wildlife Expert"
   },
   {
     id: 6,
     joke: "Why did the math book look so sad? Because it had too many problems!",
-    category: "Education"
+    category: "Education",
+    author: "Math Teacher"
   }
 ];
 
@@ -48,6 +55,7 @@ export default function SwipePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [swipedCards, setSwipedCards] = useState<{ id: number; direction: 'left' | 'right' }[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
   const router = useRouter();
 
   const currentCard = sampleJokes[currentIndex];
@@ -57,7 +65,7 @@ export default function SwipePage() {
       // All cards swiped, navigate to storyboard
       setTimeout(() => {
         router.push('/storyboard');
-      }, 500);
+      }, 1000);
     }
   }, [currentIndex, router]);
 
@@ -65,11 +73,13 @@ export default function SwipePage() {
     if (isAnimating || currentIndex >= sampleJokes.length) return;
     
     setIsAnimating(true);
+    setSwipeDirection(direction);
     setSwipedCards(prev => [...prev, { id: currentCard.id, direction }]);
     
     setTimeout(() => {
       setCurrentIndex(prev => prev + 1);
       setIsAnimating(false);
+      setSwipeDirection(null);
     }, 300);
   };
 
@@ -92,54 +102,89 @@ export default function SwipePage() {
 
   if (currentIndex >= sampleJokes.length) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-red-400 via-pink-500 to-red-500 flex items-center justify-center">
         <div className="text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">All Done!</h1>
-          <p className="text-xl">Redirecting to storyboard...</p>
+          <div className="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span className="text-4xl">🎬</span>
+          </div>
+          <h1 className="text-5xl font-bold mb-4">All Done!</h1>
+          <p className="text-xl opacity-90">Creating your storyboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-pink-600 flex flex-col items-center justify-center p-4">
-      <div className="text-center text-white mb-8">
-        <h1 className="text-3xl font-bold mb-2">Swipe the Jokes!</h1>
-        <p className="text-lg opacity-90">
-          Card {currentIndex + 1} of {sampleJokes.length}
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-red-400 via-pink-500 to-red-500 flex flex-col">
+      {/* Header */}
+      <div className="flex justify-between items-center p-6 pt-12">
+        <div className="text-white">
+          <h1 className="text-2xl font-bold">ShinobiSwipe</h1>
+          <p className="text-sm opacity-80">Card {currentIndex + 1} of {sampleJokes.length}</p>
+        </div>
+        <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+          <span className="text-white text-xl">🎭</span>
+        </div>
       </div>
 
-      <div className="relative w-full max-w-sm h-96 mb-8" {...handlers}>
-        <motion.div
-          key={currentCard.id}
-          className="absolute inset-0 bg-white rounded-2xl shadow-2xl p-6 flex flex-col justify-center items-center cursor-grab active:cursor-grabbing"
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.1}
-          onDragEnd={handleDragEnd}
-          animate={{
-            scale: isAnimating ? 0.95 : 1,
-            rotate: isAnimating ? 5 : 0,
-          }}
-          transition={{ duration: 0.2 }}
-        >
-          <div className="text-center">
-            <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4 inline-block">
-              {currentCard.category}
+      {/* Card Container */}
+      <div className="flex-1 flex items-center justify-center px-6 pb-20">
+        <div className="relative w-full max-w-sm h-96" {...handlers}>
+          <motion.div
+            key={currentCard.id}
+            className="absolute inset-0 bg-white rounded-3xl shadow-2xl overflow-hidden cursor-grab active:cursor-grabbing"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.1}
+            onDragEnd={handleDragEnd}
+            animate={{
+              scale: isAnimating ? 0.95 : 1,
+              rotate: swipeDirection === 'left' ? -15 : swipeDirection === 'right' ? 15 : 0,
+              x: swipeDirection === 'left' ? -400 : swipeDirection === 'right' ? 400 : 0,
+            }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            {/* Card Header */}
+            <div className="bg-gradient-to-r from-red-400 to-pink-500 p-6 text-white">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-xl font-bold">{currentCard.category}</h2>
+                  <p className="text-sm opacity-90">{currentCard.author}</p>
+                </div>
+                <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                  <span className="text-lg">😄</span>
+                </div>
+              </div>
             </div>
-            <p className="text-gray-800 text-lg font-medium leading-relaxed">
-              {currentCard.joke}
-            </p>
-          </div>
-        </motion.div>
+
+            {/* Card Content */}
+            <div className="p-6 flex-1 flex items-center justify-center">
+              <p className="text-gray-800 text-lg font-medium leading-relaxed text-center">
+                {currentCard.joke}
+              </p>
+            </div>
+
+            {/* Swipe Indicators */}
+            <div className="absolute top-4 left-4 transform -rotate-12">
+              <div className="bg-red-500 text-white px-4 py-2 rounded-lg font-bold text-sm opacity-0 animate-pulse">
+                NOPE
+              </div>
+            </div>
+            <div className="absolute top-4 right-4 transform rotate-12">
+              <div className="bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm opacity-0 animate-pulse">
+                LIKE
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
-      <div className="flex gap-6">
+      {/* Action Buttons */}
+      <div className="flex justify-center gap-8 pb-8">
         <button
           onClick={() => handleSwipe('left')}
           disabled={isAnimating}
-          className="w-16 h-16 bg-red-500 hover:bg-red-600 disabled:opacity-50 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg transition-all duration-200"
+          className="w-16 h-16 bg-white bg-opacity-20 hover:bg-opacity-30 disabled:opacity-50 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg transition-all duration-200 transform hover:scale-110"
         >
           ✕
         </button>
@@ -147,16 +192,15 @@ export default function SwipePage() {
         <button
           onClick={() => handleSwipe('right')}
           disabled={isAnimating}
-          className="w-16 h-16 bg-green-500 hover:bg-green-600 disabled:opacity-50 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg transition-all duration-200"
+          className="w-16 h-16 bg-white bg-opacity-20 hover:bg-opacity-30 disabled:opacity-50 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg transition-all duration-200 transform hover:scale-110"
         >
-          ✓
+          ♥
         </button>
       </div>
 
-      <div className="mt-8 text-white text-center">
-        <p className="text-sm opacity-75">
-          Swipe left to drop, right to keep
-        </p>
+      {/* Instructions */}
+      <div className="text-center text-white text-sm opacity-75 pb-6">
+        <p>Swipe left to drop, right to keep</p>
       </div>
     </div>
   );

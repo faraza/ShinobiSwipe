@@ -22,23 +22,31 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
-          ShinobiSwipe
-        </h1>
+    <div className="min-h-screen bg-gradient-to-br from-red-400 via-pink-500 to-red-500 flex items-center justify-center p-4">
+      <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md mx-4">
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 bg-gradient-to-r from-red-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-white text-3xl font-bold">S</span>
+          </div>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+            ShinobiSwipe
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Create your video storyboard
+          </p>
+        </div>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="premise" className="block text-sm font-medium text-gray-700 mb-2">
-              Enter your video premise:
+            <label htmlFor="premise" className="block text-sm font-semibold text-gray-700 mb-3">
+              What's your video about?
             </label>
             <textarea
               id="premise"
               value={premise}
               onChange={(e) => setPremise(e.target.value)}
-              placeholder="Describe your video idea here..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+              placeholder="Describe your video idea here... (e.g., A cooking tutorial for beginners, A travel vlog in Japan, etc.)"
+              className="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-red-400 focus:border-red-400 resize-none transition-all duration-200 text-gray-700 placeholder-gray-400"
               rows={4}
               disabled={isLoading}
             />
@@ -47,18 +55,25 @@ export default function Home() {
           <button
             type="submit"
             disabled={!premise.trim() || isLoading}
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-purple-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            className="w-full bg-gradient-to-r from-red-400 to-pink-500 text-white font-bold py-4 px-6 rounded-2xl hover:from-red-500 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
           >
-            {isLoading ? 'Generating Cards...' : 'Generate Cards'}
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+                Generating Cards...
+              </div>
+            ) : (
+              'Start Swiping!'
+            )}
           </button>
         </form>
 
         {isLoading && (
           <div className="mt-6">
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full animate-pulse" style={{ width: '100%' }}></div>
+            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div className="bg-gradient-to-r from-red-400 to-pink-500 h-3 rounded-full animate-pulse transition-all duration-1000" style={{ width: '100%' }}></div>
             </div>
-            <p className="text-center text-gray-600 mt-2">Creating your swipe cards...</p>
+            <p className="text-center text-gray-600 mt-3 font-medium">Creating your swipe cards...</p>
           </div>
         )}
       </div>
