@@ -14,7 +14,7 @@ const sampleCards: CardData[] = [
     type: "image",
     content: "",
     imageUrl: "/zabuza.png",
-    caption: "Zabuza wears an i heart naruto shirt",
+    caption: "Zabuza wears an 'I heart Naruto' shirt",
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const sampleCards: CardData[] = [
     type: "image",
     content: "",
     imageUrl: "/meth.png",
-    caption: "Meth's surprised face at the news",
+    caption: "Guy on meth says he was Naruto's first friend.",
   },
   {
     id: 5,
