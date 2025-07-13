@@ -15,7 +15,7 @@ interface SwipeCardProps {
 
 export function SwipeCard({ card, isActive, onSwipe, stackPosition }: SwipeCardProps) {
   const x = useMotionValue(0)
-  const rotate = useTransform(x, [-300, 300], [-30, 30])
+  const rotate = useTransform(x, [-300, 300], [-15, 15])
   const opacity = useTransform(x, [-300, -150, 0, 150, 300], [0, 1, 1, 1, 0])
 
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
@@ -30,9 +30,7 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition }: SwipeCardP
   const yOffset = Math.abs(stackPosition) * 8
   const cardOpacity = stackPosition > 2 ? 0 : 1 - Math.abs(stackPosition) * 0.2
 
-  if (!isActive && stackPosition !== 1 && stackPosition !== 2) {
-    return null
-  }
+  if (!isActive && stackPosition !== 1 && stackPosition !== 2) return null
 
   const cardStyle = {
     scale,
@@ -45,14 +43,15 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition }: SwipeCardP
   const renderCardContent = () => {
     if (card.type === "image") {
       return (
-        <div className="flex flex-col items-center space-y-3">
-          <h2 className="text-xl font-semibold text-center">Naruto's haters react to him becoming Hokage</h2>
+        <div className="w-full flex flex-col items-center text-center space-y-4">
+          <p className="text-sm text-muted-foreground">Prompt by user</p>
+          <h2 className="text-2xl font-bold">Here's a cool idea</h2>
 
-          <div className="rounded-xl overflow-hidden shadow-md w-full max-w-[320px] aspect-square bg-gray-100">
-            <ImageCard imageUrl={card.imageUrl || "/placeholder.svg?height=600&width=400"} />
+          <div className="rounded-2xl overflow-hidden w-full max-w-[300px] aspect-square shadow-md bg-gray-100">
+            <ImageCard imageUrl={card.imageUrl || "/placeholder.svg"} />
           </div>
 
-          <p className="text-center text-sm text-gray-600">{card.caption}</p>
+          <p className="text-sm text-gray-500">This would be hilarious with a twist ending.</p>
         </div>
       )
     } else {
@@ -80,11 +79,39 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition }: SwipeCardP
       onDragEnd={isActive ? handleDragEnd : undefined}
       whileDrag={isActive ? { scale: 1.05 } : undefined}
     >
-      <Card className="h-full bg-white rounded-2xl shadow-xl overflow-visible cursor-grab active:cursor-grabbing">
-        <CardContent className="h-full p-6 flex items-center justify-center">
-          {renderCardContent()}
-        </CardContent>
-      </Card>
+      <div className="h-full w-full rounded-3xl bg-gradient-to-b from-purple-400 to-blue-200 p-6 flex flex-col justify-between">
+        {/* Tip at the top */}
+        <div className="flex items-center gap-2 text-sm text-white/90">
+          <span className="text-xl">💡</span>
+          <span>You can swipe right or left to answer positive or negative respectively.</span>
+        </div>
+
+        {/* Main card content */}
+        <Card className="bg-white rounded-3xl shadow-xl px-6 py-8">
+          <CardContent className="flex flex-col items-center space-y-4">
+            <p className="text-sm text-purple-600">Question 1 of 10</p>
+            <h1 className="text-2xl font-bold text-center text-black leading-snug">
+              Do you have more than one source of income?
+            </h1>
+          </CardContent>
+        </Card>
+
+        {/* Buttons */}
+        <div className="flex justify-center gap-6 mt-6">
+          <button 
+            className="w-14 h-14 rounded-full bg-white shadow-md text-2xl hover:bg-gray-50 transition-colors"
+            onClick={() => onSwipe("left")}
+          >
+            👎
+          </button>
+          <button 
+            className="w-14 h-14 rounded-full bg-white shadow-md text-2xl hover:bg-gray-50 transition-colors"
+            onClick={() => onSwipe("right")}
+          >
+            👍
+          </button>
+        </div>
+      </div>
     </motion.div>
   )
 }
