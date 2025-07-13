@@ -110,14 +110,15 @@ export function InputStep({ premise, setPremise, onSubmit }: InputStepProps) {
                     Enter your video premise
                   </h1>
                   <form onSubmit={handleSubmit} className="w-full space-y-4">
-                    <Input
-                      type="text"
+                    <textarea
                       value={premise}
                       onChange={(e) => setPremise(e.target.value)}
-                      placeholder="e.g., A day in the life of a programmer"
-                      className="w-full h-12 rounded-xl border-2 border-gray-200 focus:border-purple-500"
+                      placeholder="E.g. 3rd party candidate runs for Hokage"
+                      className="w-full h-20 rounded-xl border-2 border-gray-200 focus:border-purple-500 p-3 resize-none"
+                      rows={2}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault()
                           handleSubmit(e)
                         }
                       }}
