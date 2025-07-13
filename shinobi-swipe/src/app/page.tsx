@@ -14,16 +14,12 @@ const sampleCards: CardData[] = [
     type: "image",
     content: "",
     imageUrl: "/zabuza.png",
-    caption: "Zabuza wearing an I love Naruto shirt",
+    caption: "Zabuza wears an i heart naruto shirt",
   },
   {
     id: 2,
-    type: "dialogue",
-    content: {
-      speaker1: "blah",
-      speaker2: "Hi",
-      speaker1_2: "Yo",
-    },
+    type: "text",
+    content: "Zabuza says he always supported naruto but interviewer reminds him that he tried to cut him in half with a giant sword.",
   },
   {
     id: 3,

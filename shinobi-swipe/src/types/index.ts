@@ -6,7 +6,7 @@ export interface DialogueContent {
 
 export interface CardData {
   id: number
-  type: "image" | "dialogue"
+  type: "image" | "dialogue" | "text"
   content: string | DialogueContent
   imageUrl?: string
   caption?: string

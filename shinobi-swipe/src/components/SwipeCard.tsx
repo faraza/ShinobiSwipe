@@ -11,9 +11,10 @@ interface SwipeCardProps {
   isActive: boolean
   onSwipe: (direction: "left" | "right") => void
   stackPosition: number
+  totalCards: number
 }
 
-export function SwipeCard({ card, isActive, onSwipe, stackPosition }: SwipeCardProps) {
+export function SwipeCard({ card, isActive, onSwipe, stackPosition, totalCards }: SwipeCardProps) {
   const x = useMotionValue(0)
   const rotate = useTransform(x, [-300, 300], [-15, 15])
   const opacity = useTransform(x, [-300, -150, 0, 150, 300], [0, 1, 1, 1, 0])
@@ -44,14 +45,28 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition }: SwipeCardP
     if (card.type === "image") {
       return (
         <div className="w-full flex flex-col items-center text-center space-y-4">
-          <p className="text-sm text-muted-foreground">Prompt by user</p>
-          <h2 className="text-2xl font-bold">Here's a cool idea</h2>
-
+          <p className="text-sm text-purple-600">Question {card.id} of {totalCards}</p>
+          
           <div className="rounded-2xl overflow-hidden w-full max-w-[300px] aspect-square shadow-md bg-gray-100">
-            <ImageCard imageUrl={card.imageUrl || "/placeholder.svg"} />
+            <img 
+              src={card.imageUrl || "/placeholder.svg"} 
+              alt={card.caption || "Card image"}
+              className="w-full h-full object-cover"
+            />
           </div>
 
-          <p className="text-sm text-gray-500">This would be hilarious with a twist ending.</p>
+          <h1 className="text-2xl font-bold text-center text-black leading-snug">
+            {card.caption}
+          </h1>
+        </div>
+      )
+    } else if (card.type === "text") {
+      return (
+        <div className="w-full flex flex-col items-center text-center space-y-4">
+          <p className="text-sm text-purple-600">Question {card.id} of {totalCards}</p>
+          <h1 className="text-2xl font-bold text-center text-black leading-snug">
+            {card.content as string}
+          </h1>
         </div>
       )
     } else {
@@ -61,11 +76,15 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition }: SwipeCardP
         speaker1_2: string
       }
       return (
-        <DialogueCard
-          speaker1={dialogueContent.speaker1}
-          speaker2={dialogueContent.speaker2}
-          speaker1_2={dialogueContent.speaker1_2}
-        />
+        <div className="w-full flex flex-col items-center text-center space-y-4">
+          <p className="text-sm text-purple-600">Question {card.id} of {totalCards}</p>
+          <h1 className="text-2xl font-bold text-center text-black leading-snug">
+            {dialogueContent.speaker1}
+          </h1>
+          <p className="text-lg text-center text-gray-600">
+            {dialogueContent.speaker2}
+          </p>
+        </div>
       )
     }
   }
@@ -89,10 +108,7 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition }: SwipeCardP
         {/* Main card content */}
         <Card className="bg-white rounded-3xl shadow-xl px-6 py-8">
           <CardContent className="flex flex-col items-center space-y-4">
-            <p className="text-sm text-purple-600">Question 1 of 10</p>
-            <h1 className="text-2xl font-bold text-center text-black leading-snug">
-              Do you have more than one source of income?
-            </h1>
+            {renderCardContent()}
           </CardContent>
         </Card>
 

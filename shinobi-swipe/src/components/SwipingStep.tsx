@@ -20,6 +20,7 @@ export function SwipingStep({ sampleCards, currentCardIndex, onSwipe, onReset }:
               isActive={index === currentCardIndex}
               onSwipe={onSwipe}
               stackPosition={index - currentCardIndex}
+              totalCards={sampleCards.length}
             />
           ))}
         </div>
