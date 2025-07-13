@@ -19,14 +19,14 @@ const sampleCards: CardData[] = [
   {
     id: 2,
     type: "text",
-    content: "Zabuza says he always supported naruto but interviewer reminds him that he tried to cut him in half with a giant sword.",
+    content: "Zabuza says he always supported naruto. \n\nThe interviewer reminds him that he tried to cut him in half with a giant sword.",
   },
   {
     id: 3,
     type: "image",
     content: "",
     imageUrl: "/clone.png",
-    caption: "Clone's reaction to Naruto becoming Hokage",
+    caption: "Man dresses up as Naruto",
   },
   {
     id: 4,
@@ -52,6 +52,7 @@ export default function Component() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [selectedCards, setSelectedCards] = useState<CardData[]>([])
   const [loadingProgress, setLoadingProgress] = useState(0)
+  const [isRecalculating, setIsRecalculating] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,12 +79,23 @@ export default function Component() {
 
     if (direction === "right") {
       setSelectedCards((prev) => [...prev, currentCard])
-    }
-
-    if (currentCardIndex < sampleCards.length - 1) {
-      setCurrentCardIndex((prev) => prev + 1)
+      // Move to next card immediately for "yes"
+      if (currentCardIndex < sampleCards.length - 1) {
+        setCurrentCardIndex((prev) => prev + 1)
+      } else {
+        setStep("storyboard")
+      }
     } else {
-      setStep("storyboard")
+      // Show recalculating for "no"
+      setIsRecalculating(true)
+      setTimeout(() => {
+        setIsRecalculating(false)
+        if (currentCardIndex < sampleCards.length - 1) {
+          setCurrentCardIndex((prev) => prev + 1)
+        } else {
+          setStep("storyboard")
+        }
+      }, 10000)
     }
   }
 
@@ -93,6 +105,7 @@ export default function Component() {
     setCurrentCardIndex(0)
     setSelectedCards([])
     setLoadingProgress(0)
+    setIsRecalculating(false)
   }
 
   if (step === "input") {
@@ -110,6 +123,7 @@ export default function Component() {
         currentCardIndex={currentCardIndex}
         onSwipe={handleSwipe}
         onReset={resetApp}
+        isRecalculating={isRecalculating}
       />
     )
   }

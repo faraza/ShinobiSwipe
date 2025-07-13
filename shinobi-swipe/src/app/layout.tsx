@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ShinobiSwipe - Tinder-like Video Premise Swiper",
+  title: "ShinobiSwipe",
   description: "Swipe through jokes to create your video storyboard",
 };
 

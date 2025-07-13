@@ -45,7 +45,7 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition, totalCards }
     if (card.type === "image") {
       return (
         <div className="w-full flex flex-col items-center text-center space-y-4">
-          <p className="text-sm text-purple-600">Question {card.id} of {totalCards}</p>
+          <p className="text-sm text-purple-600">Video Frame</p>
           
           <div className="rounded-2xl overflow-hidden w-full max-w-[300px] aspect-square shadow-md bg-gray-100">
             <img 
@@ -63,7 +63,7 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition, totalCards }
     } else if (card.type === "text") {
       return (
         <div className="w-full flex flex-col items-center text-center space-y-4">
-          <p className="text-sm text-purple-600">Question {card.id} of {totalCards}</p>
+          <p className="text-sm text-purple-600">Dialogue</p>
           <h1 className="text-2xl font-bold text-center text-black leading-snug">
             {card.content as string}
           </h1>
@@ -77,7 +77,7 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition, totalCards }
       }
       return (
         <div className="w-full flex flex-col items-center text-center space-y-4">
-          <p className="text-sm text-purple-600">Question {card.id} of {totalCards}</p>
+          <p className="text-sm text-purple-600">Dialogue</p>
           <h1 className="text-2xl font-bold text-center text-black leading-snug">
             {dialogueContent.speaker1}
           </h1>
