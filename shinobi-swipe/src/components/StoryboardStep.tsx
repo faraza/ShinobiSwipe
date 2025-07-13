@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Heart } from "lucide-react"
 import { CardData } from "@/types"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 interface StoryboardStepProps {
@@ -13,6 +13,8 @@ interface StoryboardStepProps {
 
 export function StoryboardStep({ premise, selectedCards, onReset }: StoryboardStepProps) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [currentMessage, setCurrentMessage] = useState("Creating video prompt")
   
   const storyboardCards = [
     {
@@ -37,6 +39,21 @@ export function StoryboardStep({ premise, selectedCards, onReset }: StoryboardSt
     }
   ]
 
+  useEffect(() => {
+    if (isGenerating) {
+      setCurrentMessage("Creating video prompt")
+      const timer = setTimeout(() => {
+        setCurrentMessage("Generating Video")
+      }, 7000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [isGenerating])
+
+  const handleGenerateVideo = () => {
+    setIsGenerating(true)
+  }
+
   const nextCard = () => {
     setCurrentCardIndex((prev) => (prev + 1) % storyboardCards.length)
   }
@@ -46,6 +63,56 @@ export function StoryboardStep({ premise, selectedCards, onReset }: StoryboardSt
   }
 
   const currentCard = storyboardCards[currentCardIndex]
+
+  if (isGenerating) {
+    return (
+      <div className="min-h-screen bg-purple-50 flex items-center justify-center p-4">
+        <div className="relative w-full max-w-sm">
+          <div className="relative h-[600px]">
+            <div className="absolute inset-0">
+              <div className="h-full w-full rounded-3xl bg-gradient-to-b from-purple-400 to-blue-200 p-6 flex flex-col justify-between">
+                {/* Tip at the top */}
+                <div className="flex items-center gap-2 text-sm text-white/90">
+                  <span className="text-xl">🎬</span>
+                  <span>Generating your video...</span>
+                </div>
+
+                {/* Loading card content */}
+                <Card className="bg-white rounded-3xl shadow-xl px-6 py-8">
+                  <CardContent className="flex flex-col items-center space-y-6">
+                    <p className="text-sm text-purple-600">Processing</p>
+                    <h1 className="text-2xl font-bold text-center text-black leading-snug">
+                      {currentMessage}
+                    </h1>
+                    <div className="w-full max-w-xs">
+                      <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden relative">
+                        <div className="absolute top-0 left-0 h-full bg-purple-600 rounded-full w-1/3" 
+                             style={{
+                               animation: 'slide 1.5s ease-in-out infinite'
+                             }}
+                        />
+                      </div>
+                    </div>
+                    <style jsx>{`
+                      @keyframes slide {
+                        0% { transform: translateX(-100%); }
+                        50% { transform: translateX(200%); }
+                        100% { transform: translateX(-100%); }
+                      }
+                    `}</style>
+                  </CardContent>
+                </Card>
+
+                {/* Empty space for buttons */}
+                <div className="flex justify-center gap-2 mt-6">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-purple-50 flex flex-col items-center justify-center p-4 gap-6">
@@ -118,12 +185,12 @@ export function StoryboardStep({ premise, selectedCards, onReset }: StoryboardSt
         </div>
       </div>
 
-      {/* Reset Button */}
+      {/* Generate Video Button */}
       <Button
-        onClick={onReset}
+        onClick={handleGenerateVideo}
         className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl mt-4"
       >
-        Start Over
+        Generate video
       </Button>
     </div>
   )
