@@ -9,4 +9,5 @@ export interface CardData {
   type: "image" | "dialogue"
   content: string | DialogueContent
   imageUrl?: string
+  caption?: string
 } 

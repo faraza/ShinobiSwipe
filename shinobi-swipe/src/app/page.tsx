@@ -14,6 +14,7 @@ const sampleCards: CardData[] = [
     type: "image",
     content: "",
     imageUrl: "/zabuza.png",
+    caption: "Zabuza wearing an I love Naruto shirt",
   },
   {
     id: 2,
@@ -29,12 +30,14 @@ const sampleCards: CardData[] = [
     type: "image",
     content: "",
     imageUrl: "/clone.png",
+    caption: "Clone's reaction to Naruto becoming Hokage",
   },
   {
     id: 4,
     type: "image",
     content: "",
     imageUrl: "/meth.png",
+    caption: "Meth's surprised face at the news",
   },
   {
     id: 5,

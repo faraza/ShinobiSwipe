@@ -46,14 +46,13 @@ export function SwipeCard({ card, isActive, onSwipe, stackPosition }: SwipeCardP
     if (card.type === "image") {
       return (
         <div className="flex flex-col items-center space-y-3">
-          <p className="text-sm text-muted-foreground">Prompt by user</p>
-          <h2 className="text-xl font-semibold text-center">Here’s a cool idea</h2>
+          <h2 className="text-xl font-semibold text-center">Naruto's haters react to him becoming Hokage</h2>
 
           <div className="rounded-xl overflow-hidden shadow-md w-full max-w-[320px] aspect-square bg-gray-100">
             <ImageCard imageUrl={card.imageUrl || "/placeholder.svg?height=600&width=400"} />
           </div>
 
-          <p className="text-center text-sm text-gray-600">This would be so funny if we added a twist at the end.</p>
+          <p className="text-center text-sm text-gray-600">{card.caption}</p>
         </div>
       )
     } else {

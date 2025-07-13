@@ -19,7 +19,7 @@ export function InputStep({ premise, setPremise, onSubmit }: InputStepProps) {
               <Heart className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-red-500 bg-clip-text text-transparent">
-              Content Swiper
+              Naruto's haters react to him becoming Hokage
             </h1>
           </div>
           <form onSubmit={onSubmit} className="space-y-6">

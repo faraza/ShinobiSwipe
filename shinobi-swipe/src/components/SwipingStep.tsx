@@ -22,7 +22,7 @@ export function SwipingStep({ sampleCards, currentCardIndex, onSwipe, onReset }:
           </Button>
           <div className="flex items-center space-x-2">
             <Heart className="w-6 h-6 text-pink-500" />
-            <span className="font-semibold text-gray-800">Content Swiper</span>
+            <span className="font-semibold text-gray-800">Naruto's haters react to him becoming Hokage</span>
           </div>
           <Button variant="ghost" className="text-gray-600">
             <RotateCcw className="w-5 h-5" />
