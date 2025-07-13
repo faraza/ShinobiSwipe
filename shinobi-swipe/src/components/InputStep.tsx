@@ -114,7 +114,7 @@ export function InputStep({ premise, setPremise, onSubmit }: InputStepProps) {
                       value={premise}
                       onChange={(e) => setPremise(e.target.value)}
                       placeholder="E.g. 3rd party candidate runs for Hokage"
-                      className="w-full h-20 rounded-xl border-2 border-gray-200 focus:border-purple-500 p-3 resize-none"
+                      className="w-full h-20 rounded-xl border-2 border-gray-200 focus:border-purple-500 p-3 resize-none text-black"
                       rows={2}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
