@@ -3,7 +3,6 @@
 import type React from "react"
 import { useState } from "react"
 import { InputStep } from "@/components/InputStep"
-import { LoadingStep } from "@/components/LoadingStep"
 import { SwipingStep } from "@/components/SwipingStep"
 import { StoryboardStep } from "@/components/StoryboardStep"
 import { CardData } from "@/types"
@@ -43,31 +42,17 @@ const sampleCards: CardData[] = [
 ]
 
 export default function Component() {
-  const [step, setStep] = useState<"input" | "loading" | "swiping" | "storyboard">("swiping")
+  const [step, setStep] = useState<"input" | "swiping" | "storyboard">("storyboard")
   const [premise, setPremise] = useState("")
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [selectedCards, setSelectedCards] = useState<CardData[]>([])
-  const [loadingProgress, setLoadingProgress] = useState(0)
   const [isRecalculating, setIsRecalculating] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!premise.trim()) return
 
-    setStep("loading")
-
-    // Simulate loading with progress
-    let progress = 0
-    const interval = setInterval(() => {
-      progress += 10
-      setLoadingProgress(progress)
-      if (progress >= 100) {
-        clearInterval(interval)
-        setTimeout(() => {
-          setStep("swiping")
-        }, 500)
-      }
-    }, 200)
+    setStep("swiping")
   }
 
   const handleSwipe = (direction: "left" | "right") => {
@@ -100,16 +85,11 @@ export default function Component() {
     setPremise("")
     setCurrentCardIndex(0)
     setSelectedCards([])
-    setLoadingProgress(0)
     setIsRecalculating(false)
   }
 
   if (step === "input") {
     return <InputStep premise={premise} setPremise={setPremise} onSubmit={handleSubmit} />
-  }
-
-  if (step === "loading") {
-    return <LoadingStep loadingProgress={loadingProgress} />
   }
 
   if (step === "swiping") {
